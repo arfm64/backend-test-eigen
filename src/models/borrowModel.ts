@@ -29,6 +29,12 @@ class Borrow extends Model {
         const isBookBorrowed = await Borrow.findOne({ where: { memberCode, bookCode, status: 'active' } });
         if (isBookBorrowed) throw new CustomError('You have already borrowed this book.', null);
 
+        // Check the availability of the book in the Stock model (assuming you have a Stock model)
+        const bookStock = await Book.findOne({ where: { code: bookCode } });
+        if (!bookStock || book.stock <= 0) {
+            throw new CustomError('This book is not available for borrowing.', null);
+        }
+
         const member = await Member.findOne({ where: { code: memberCode } });
         if (!member || (member.penaltyEnd && member.penaltyEnd > new Date())) {
             throw new CustomError(member ? 'Member is Under Penalty.' : 'Member not found.', member);
