@@ -1,0 +1,18 @@
+# Node modules
+node_modules/
+
+# Ignore compiled JavaScript files
+dist/
+*.js
+
+# Ignore TypeScript definition files
+*.d.ts
+
+# Ignore log files
+*.log
+
+# Ignore environment variable files
+.env
+
+# Ignore build output
+/build
