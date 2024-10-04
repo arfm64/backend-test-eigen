@@ -10,13 +10,16 @@ const router = Router();
 router.route('/borrows')
     .get(BorrowController.getAllBorrows)
     .post(BorrowController.borrowBook);
-
 router.post('/borrows/return', BorrowController.returnBook);
 
 // Book Routes
-router.get('/books', BookController.getAllBooks);
+router.route('/books')
+    .get(BookController.getAllBooks)
+    .post(BookController.createBook);
 
 // Member Routes
-router.get('/members', MemberController.getAllMembers);
+router.route('/members')
+    .get(MemberController.getAllMembers)
+    .post(MemberController.createMember);
 
 export default router;

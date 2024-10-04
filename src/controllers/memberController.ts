@@ -8,6 +8,43 @@ class MemberController {
         res.status(status).json(response);
     }
 
+    /**
+     * @swagger
+     * /api/members:
+     *   get:
+     *     summary: Retrieve all members
+     *     description: Fetches all members from the system.
+     *     responses:
+     *       200:
+     *         description: Members retrieved successfully.
+     *         content:
+     *           application/json:
+     *             schema:
+     *               type: object
+     *               properties:
+     *                 success:
+     *                   type: boolean
+     *                   example: true
+     *                 message:
+     *                   type: string
+     *                   example: Members retrieved successfully.
+     *                 data:
+     *                   type: array
+     *                   items:
+     *                     type: object
+     *                     properties:
+     *                       memberCode:
+     *                         type: string
+     *                         example: "M001"
+     *                       name:
+     *                         type: string
+     *                         example: "John Doe"
+     *                       email:
+     *                         type: string
+     *                         example: "john.doe@example.com"
+     *       500:
+     *         description: An error occurred while retrieving members.
+     */
     getAllMembers = async (req: Request, res: Response) => {
         try {
             const members = await Member.findAll();
@@ -17,6 +54,70 @@ class MemberController {
         }
     };
 
+    /**
+     * @swagger
+     * /api/members:
+     *   post:
+     *     summary: Create a new member
+     *     description: Adds a new member to the system.
+     *     requestBody:
+     *       required: true
+     *       content:
+     *         application/json:
+     *           schema:
+     *             type: object
+     *             properties:
+     *               memberCode:
+     *                 type: string
+     *                 example: "M002"
+     *               name:
+     *                 type: string
+     *                 example: "Jane Doe"
+     *               email:
+     *                 type: string
+     *                 example: "jane.doe@example.com"
+     *     responses:
+     *       201:
+     *         description: Member created successfully.
+     *         content:
+     *           application/json:
+     *             schema:
+     *               type: object
+     *               properties:
+     *                 success:
+     *                   type: boolean
+     *                   example: true
+     *                 message:
+     *                   type: string
+     *                   example: Member created successfully.
+     *                 data:
+     *                   type: object
+     *                   properties:
+     *                     memberCode:
+     *                       type: string
+     *                       example: "M002"
+     *                     name:
+     *                       type: string
+     *                       example: "Jane Doe"
+     *       400:
+     *         description: Failed to create member.
+     *         content:
+     *           application/json:
+     *             schema:
+     *               type: object
+     *               properties:
+     *                 success:
+     *                   type: boolean
+     *                   example: false
+     *                 message:
+     *                   type: string
+     *                   example: Failed to create member.
+     *                 error:
+     *                   type: string
+     *                   example: "Validation error: email must be unique."
+     *       500:
+     *         description: An error occurred while creating member.
+     */
     createMember = async (req: Request, res: Response) => {
         try {
             const member = await Member.create(req.body);

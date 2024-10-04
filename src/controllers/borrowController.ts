@@ -16,6 +16,46 @@ class BorrowController {
         }
     }
 
+    /**
+     * @swagger
+     * /api/borrows:
+     *   get:
+     *     summary: Retrieve all borrow records
+     *     description: Fetches all borrowing transactions from the system.
+     *     responses:
+     *       200:
+     *         description: Data borrows retrieved successfully.
+     *         content:
+     *           application/json:
+     *             schema:
+     *               type: object
+     *               properties:
+     *                 success:
+     *                   type: boolean
+     *                   example: true
+     *                 message:
+     *                   type: string
+     *                   example: Data borrows retrieved successfully.
+     *                 data:
+     *                   type: array
+     *                   items:
+     *                     type: object
+     *                     properties:
+     *                       memberCode:
+     *                         type: string
+     *                         example: "M001"
+     *                       bookCode:
+     *                         type: string
+     *                         example: "BK001"
+     *                       borrowDate:
+     *                         type: string
+     *                         example: "2023-09-01"
+     *                       returnDate:
+     *                         type: string
+     *                         example: "2023-09-15"
+     *       500:
+     *         description: An unexpected error occurred.
+     */
     getAllBorrows = async (req: Request, res: Response) => {
         try {
             const borrows = await Borrow.getAllBorrows();
@@ -25,6 +65,56 @@ class BorrowController {
         }
     };
 
+    /**
+     * @swagger
+     * /api/borrows/:
+     *   post:
+     *     summary: Borrow a book
+     *     description: Borrows a book for a member.
+     *     requestBody:
+     *       required: true
+     *       content:
+     *         application/json:
+     *           schema:
+     *             type: object
+     *             properties:
+     *               memberCode:
+     *                 type: string
+     *                 example: "M001"
+     *               bookCode:
+     *                 type: string
+     *                 example: "BK001"
+     *     responses:
+     *       201:
+     *         description: Book borrowed successfully.
+     *         content:
+     *           application/json:
+     *             schema:
+     *               type: object
+     *               properties:
+     *                 success:
+     *                   type: boolean
+     *                   example: true
+     *                 message:
+     *                   type: string
+     *                   example: Book borrowed successfully.
+     *                 data:
+     *                   type: object
+     *                   properties:
+     *                     memberCode:
+     *                       type: string
+     *                       example: "M001"
+     *                     bookCode:
+     *                       type: string
+     *                       example: "BK001"
+     *                     borrowDate:
+     *                       type: string
+     *                       example: "2023-09-01"
+     *       400:
+     *         description: Invalid request data.
+     *       500:
+     *         description: An unexpected error occurred.
+     */
     borrowBook = async (req: Request, res: Response) => {
         const { memberCode, bookCode } = req.body;
         try {
@@ -35,6 +125,56 @@ class BorrowController {
         }
     };
 
+    /**
+     * @swagger
+     * /api/borrows/return:
+     *   post:
+     *     summary: Return a borrowed book
+     *     description: Returns a book that was previously borrowed by a member.
+     *     requestBody:
+     *       required: true
+     *       content:
+     *         application/json:
+     *           schema:
+     *             type: object
+     *             properties:
+     *               memberCode:
+     *                 type: string
+     *                 example: "M001"
+     *               bookCode:
+     *                 type: string
+     *                 example: "BK001"
+     *     responses:
+     *       200:
+     *         description: Book returned successfully.
+     *         content:
+     *           application/json:
+     *             schema:
+     *               type: object
+     *               properties:
+     *                 success:
+     *                   type: boolean
+     *                   example: true
+     *                 message:
+     *                   type: string
+     *                   example: Book returned successfully.
+     *                 data:
+     *                   type: object
+     *                   properties:
+     *                     memberCode:
+     *                       type: string
+     *                       example: "M001"
+     *                     bookCode:
+     *                       type: string
+     *                       example: "BK001"
+     *                     returnDate:
+     *                       type: string
+     *                       example: "2023-09-15"
+     *       400:
+     *         description: Invalid request data.
+     *       500:
+     *         description: An unexpected error occurred.
+     */
     returnBook = async (req: Request, res: Response) => {
         const { memberCode, bookCode } = req.body;
         try {
